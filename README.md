@@ -2,7 +2,7 @@
 Sketch Up plugin for exporting model to Rex-Plus order.
 
 ## Installation
-Clone this repository or copy the rexplus_order.rb and rexplus_order folder to %AppData%\Roaming\SketchUp\SketchUp 2016\SketchUp\Plugins\ folder. Restart SketchUp.
+Copy the rexplus_order.rb and rexplus_order folder to %AppData%\Roaming\SketchUp\SketchUp 2016\SketchUp\Plugins\ folder. Restart SketchUp.
 
 ## Personal information
 Click Extensions -> Rexplus Order -> Set Personal Data and fill all needed information. Click Ok.
