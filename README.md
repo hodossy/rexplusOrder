@@ -12,9 +12,9 @@ This plugin only handles component definitions, therefore one must create a comp
 
 | Keyword | Meaning |
 | :-----: | :-----: |
-| melamine | Colour of the melamine |
-| foilType | Colour of the 0.2 mm thick edge foil |
-| absType | Colour of the 2 mm thick ABS |
+| melamine | Colour code of the melamine (codes can be found in Help) |
+| foilType | Colour code of the 0.2 mm thick edge foil (codes can be found in Help) |
+| absType | Colour code of the 2 mm thick ABS (codes can be found in Help) |
 | foilProfile | A number in format of [0-2][0-2], specifying how many edges should be banded of the longer and shorter side. 22 means banding of all edges. |
 | absProfile | A number in format of [0-2][0-2], specifying how many edges should be banded of the longer and shorter side. 22 means banding of all edges. |
 | skip | A component that is not part of the order |
