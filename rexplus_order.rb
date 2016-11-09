@@ -95,8 +95,8 @@ def getDimensions( bounds )
 	height = bounds.height.to_s.sub!(/,\d\D*/, "").to_i
 	depth = bounds.depth.to_s.sub!(/,\d\D*/, "").to_i
 	meretek = [ width, height, depth ]
-	meretek.delete( 18 )
-	meretek.delete( 3 )
+	( i = meretek.find_index(18) ) && meretek.delete_at(i)
+	( i = meretek.find_index(3) ) && meretek.delete_at(i)
 	meretek.sort!.reverse!
 	return meretek
 end
