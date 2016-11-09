@@ -14,6 +14,41 @@ submenu.add_item("Export to *.rex") {
 	saveOrder( dest, getTetelek, customer["name"], customer["phone"], customer["email"] )
 }
 
+submenu.add_item("Export to JSON") {
+	tetelek = getTetelek()
+	
+	tetelek_json = "{\\\"Tetelek\\\":["
+	first = true
+	for tetel in tetelek
+		tetelek_json += "," unless first
+		tetelek_json += "{\\\"name\\\":\\\"#{tetel.name}\\\","
+		tetelek_json += "\\\"hossz\\\":\\\"#{tetel.hossz}\\\","
+		tetelek_json += "\\\"szel\\\":\\\"#{tetel.szel}\\\","
+		tetelek_json += "\\\"darab\\\":\\\"#{tetel.darab}\\\","
+		tetelek_json += "\\\"blap\\\":\\\"#{tetel.blap}\\\","
+		tetelek_json += "\\\"folia_tipus\\\":\\\"#{tetel.folia_tipus}\\\","
+		tetelek_json += "\\\"abs_tipus\\\":\\\"#{tetel.abs_tipus}\\\","
+		tetelek_json += "\\\"folia\\\":\\\"#{tetel.folia}\\\","
+		tetelek_json += "\\\"abs\\\":\\\"#{tetel.abs}\\\"}"
+		tetelek_json += "\\\"megjegyzes\\\":\\\"#{tetel.megjegyzes}\\\"}"
+		first = false if first
+	end
+	tetelek_json += "]}"
+	
+	dlg = UI::WebDialog.new( "Specify details of the order", "", false, 500, 300, 433, 234, false )
+	js_command = "document.getElementById('data').innerHTML = '#{tetelek_json}'"
+	
+	dlg.set_file( File.dirname(__FILE__) + '/rexplus_order/html/rexplus.html' )
+	dlg.add_action_callback( "closeDialog" ) {|dialog, params|
+		data = dlg.get_element_value( "data" )
+		puts data
+		dlg.close
+	}
+	dlg.show {
+		dlg.execute_script( "document.getElementById('data').innerHTML = 'Hello World!'" )
+	}	
+}
+
 submenu.add_item("Set personal data") {
 	file = open( File.dirname(__FILE__) + '/rexplus_order/cust.json', "r" )
 	json = file.read
@@ -28,13 +63,22 @@ submenu.add_item("Set personal data") {
 	
 	input = UI.inputbox( prompts, defaults, title )
 	
-	customer["name"]  = input[0]
-	customer["phone"] = input[1]
-	customer["email"] = input[2]
+	if(input)
+		customer["name"]  = input[0]
+		customer["phone"] = input[1]
+		customer["email"] = input[2]
 	
-	file = open( File.dirname(__FILE__) + '/rexplus_order/cust.json', "w+" )
-	file.write( custData.to_json )
-	file.close
+		file = open( File.dirname(__FILE__) + '/rexplus_order/cust.json', "w+" )
+		file.write( custData.to_json )
+		file.close
+	end
+}
+
+submenu.add_item("Help") {
+	dlg = UI::WebDialog.new( "Help", "", false, 570, 240, 428, 304, false )
+	
+	dlg.set_file( File.dirname(__FILE__) + '/rexplus_order/html/help.html' )
+	dlg.show
 }
 
 def getCustomer()
@@ -62,7 +106,7 @@ def getTetelek( )
     definitions = Sketchup.active_model.definitions
     for definition in definitions
         if( isTetel( definition ) )
-			next if (definition ~= /skip/)
+			next if (definition.description =~ /skip/)
             meretek = getDimensions( definition.bounds )
 			tetel = Tetel.new( definition.name, meretek[0], meretek[1], definition.count_instances, definition.name )
 			tetel.setAttr( definition.description )
