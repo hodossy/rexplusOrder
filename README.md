@@ -19,4 +19,5 @@ This plugin only handles component definitions, therefore one must create a comp
 | absProfile | A number in format of [0-2][0-2], specifying how many edges should be banded of the longer and shorter side. 22 means banding of all edges. |
 | skip | A component that is not part of the order |
 
-
+## Exporting the order
+When all components are defined properly in the description, click Extensions -> Rexplus Order -> Export to \*.rex and specify the folder where you want to save the order.
